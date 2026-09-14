@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpustakaan Produk Digital</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-8 shadow-md">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-book-open mr-2"></i> Gudang Produk Digital</h1>
+            <p class="text-blue-200 mb-6">Cari dan download produk digital dengan mudah</p>
+            
+            <!-- Kolom Pencarian -->
+            <div class="relative max-w-xl mx-auto">
+                <input type="text" id="searchInput" placeholder="Cari nama produk..." 
+                    class="w-full px-4 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-sm">
+                <i class="fas fa-search absolute right-4 top-3.5 text-gray-400 text-lg"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto p-6 mt-4">
+        
+        <!-- Filter Kategori -->
+        <div class="flex flex-wrap justify-center gap-3 mb-8" id="filterContainer">
+            <button class="filter-btn active bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-700" data-filter="Semua">Semua</button>
+            <button class="filter-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-50" data-filter="Ebook/PDF">Ebook/PDF</button>
+            <button class="filter-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-50" data-filter="Template/ZIP">Template/ZIP</button>
+            <button class="filter-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-50" data-filter="Video">Video</button>
+            <button class="filter-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-50" data-filter="Lainnya">Lainnya</button>
+        </div>
+
+        <!-- Status Loading -->
+        <div id="loading" class="text-center py-10">
+            <i class="fas fa-spinner fa-spin text-4xl text-blue-500 mb-3"></i>
+            <p class="text-gray-500">Mengambil data dari Google Drive...</p>
+        </div>
+
+        <!-- Grid Produk -->
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+            <!-- Kartu Produk akan dimuat di sini oleh Javascript -->
+        </div>
+
+    </main>
+
+    <!-- Script Javascript -->
+    <script>
+        // GANTI URL DI BAWAH INI DENGAN WEB APP URL DARI GOOGLE APPS SCRIPT ANDA!
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyvIpV27YJn33-WOgvZcTnWFp9JiNJuJ8R348yvnjY9i3tqwJLkK0KYRrRN2tc8k_ul/exec';
+        
+        let allProducts = [];
+
+        // Fungsi mengambil data dari API Google
+        async function fetchData() {
+            try {
+                const response = await fetch(API_URL);
+                allProducts = await response.json();
+                
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('productGrid').classList.remove('hidden');
+                
+                renderProducts(allProducts);
+            } catch (error) {
+                document.getElementById('loading').innerHTML = '<p class="text-red-500">Gagal memuat data. Pastikan URL API benar.</p>';
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Fungsi menampilkan produk ke HTML
+        function renderProducts(products) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = ''; // Kosongkan dulu
+            
+            if(products.length === 0) {
+                grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-10">Produk tidak ditemukan.</p>';
+                return;
+            }
+
+            products.forEach(product => {
+                // Konversi Link Download Direct
+                const downloadLink = `https://drive.google.com/uc?export=download&id=${product.id}`;
+                
+                // Pilih ikon berdasarkan kategori
+                let icon = 'fa-file';
+                if(product.kategori === 'Ebook/PDF') icon = 'fa-file-pdf text-red-500';
+                else if(product.kategori === 'Template/ZIP') icon = 'fa-file-zipper text-yellow-500';
+                else if(product.kategori === 'Video') icon = 'fa-file-video text-purple-500';
+                else if(product.kategori === 'Gambar') icon = 'fa-image text-green-500';
+
+                const card = `
+                    <div class="bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 p-5 flex flex-col transition duration-300">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="bg-gray-50 p-3 rounded-lg"><i class="fas ${icon} text-2xl"></i></div>
+                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">${product.kategori}</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-1 line-clamp-2">${product.nama}</h3>
+                        <p class="text-sm text-gray-500 mb-6"><i class="fas fa-hdd mr-1"></i> Ukuran: ${product.ukuran}</p>
+                        <div class="mt-auto">
+                            <a href="${downloadLink}" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition duration-200">
+                                <i class="fas fa-download mr-1"></i> Download Langsung
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        // Fitur Pencarian (Search)
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase();
+            const filtered = allProducts.filter(p => p.nama.toLowerCase().includes(keyword));
+            renderProducts(filtered);
+        });
+
+        // Fitur Filter Kategori
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Ubah gaya tombol yang aktif
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-blue-600', 'text-white');
+                    b.classList.add('bg-white', 'text-gray-600');
+                });
+                btn.classList.remove('bg-white', 'text-gray-600');
+                btn.classList.add('bg-blue-600', 'text-white');
+
+                // Filter data
+                const kategori = btn.getAttribute('data-filter');
+                if(kategori === 'Semua') {
+                    renderProducts(allProducts);
+                } else {
+                    const filtered = allProducts.filter(p => p.kategori === kategori);
+                    renderProducts(filtered);
+                }
+            });
+        });
+
+        // Jalankan fungsi ambil data saat pertama kali dibuka
+        window.onload = fetchData;
+    </script>
+</body>
+</html>
