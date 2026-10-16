@@ -4,292 +4,280 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#2563eb">
-    <title>AI Hub Pro - Studio Kreatif Mobile</title>
+    <title>AI Hub Pro - Studio Kreatif</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * { -webkit-tap-highlight-color: transparent; }
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Custom Scrollbar */
         .chat-scroll::-webkit-scrollbar { width: 4px; }
         .chat-scroll::-webkit-scrollbar-track { background: transparent; }
         .chat-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        
-        /* Hide scrollbar for horizontal tabs but keep functionality */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Mobile Optimizations */
         .tab-active { border-bottom: 3px solid #2563eb; color: #2563eb; background-color: #eff6ff; font-weight: 600; }
         .tab-inactive { color: #6b7280; }
         .tab-inactive:active { background-color: #f3f4f6; }
-        
-        /* Prevent text selection on buttons for better mobile feel */
-        button { -webkit-tap-highlight-color: transparent; user-select: none; }
+        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .tool-card:active { transform: scale(0.98); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 text-gray-800 font-sans antialiased">
 
     <!-- ==================== HALAMAN LOGIN ==================== -->
     <div id="loginSection" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-700 via-indigo-800 to-purple-900 p-4">
-        <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8 w-full max-w-md fade-in">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-sm fade-in">
             <div class="text-center mb-6">
-                <div class="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-inner">
-                    <i class="fas fa-wand-magic-sparkles text-3xl text-blue-600"></i>
+                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fas fa-wand-magic-sparkles text-4xl text-white"></i>
                 </div>
-                <h1 class="text-2xl font-extrabold text-gray-800 tracking-tight">AI Hub Pro</h1>
-                <p class="text-gray-500 text-sm mt-2 px-4">Studio kreatif gratis. Chat, Gambar, Video & Utilitas dalam satu aplikasi.</p>
+                <h1 class="text-2xl font-extrabold text-gray-800">AI Hub Pro</h1>
+                <p class="text-gray-500 text-sm mt-2">Studio kreatif gratis dalam genggaman</p>
             </div>
             <form id="loginForm" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-gray-600 mb-1 uppercase tracking-wider">Email</label>
+                    <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Email</label>
                     <div class="relative">
                         <i class="fas fa-envelope absolute left-4 top-3.5 text-gray-400"></i>
-                        <input type="email" id="emailInput" required placeholder="nama@email.com" class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+                        <input type="email" id="emailInput" required placeholder="nama@email.com" class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition text-sm">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-600 mb-1 uppercase tracking-wider">Password</label>
+                    <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Password</label>
                     <div class="relative">
                         <i class="fas fa-lock absolute left-4 top-3.5 text-gray-400"></i>
-                        <input type="password" id="passwordInput" required placeholder="••••••••" class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+                        <input type="password" id="passwordInput" required placeholder="••••••••" class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition text-sm">
                     </div>
                 </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-200">
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-200 active:scale-95">
                     Masuk ke Studio
                 </button>
             </form>
-            <p class="text-center text-xs text-gray-400 mt-6">Demo: Gunakan email & password apa saja (min. 4 karakter).</p>
-        </div</div>
+            <p class="text-center text-xs text-gray-400 mt-6">Demo: Email & password bebas (min. 4 karakter)</p>
+        </div>
+    </div>
 
     <!-- ==================== HALAMAN DASHBOARD ==================== -->
-    <div id="dashboardSection" class="hidden min-h-screen flex flex-col pb-20 md:pb-0">
-        <header class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+    <div id="dashboardSection" class="hidden min-h-screen flex flex-col pb-24">
+        <header class="glass-effect border-b border-gray-200 sticky top-0 z-50">
             <div class="max-w-5xl mx-auto px-4">
-                <div class="flex justify-between items-center h-16">
+                <div class="flex justify-between items-center h-14">
                     <div class="flex items-center gap-3">
-                        <div class="bg-blue-600 text-white w-9 h-9 rounded-lg flex items-center justify-center">
+                        <div class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white w-9 h-9 rounded-xl flex items-center justify-center shadow-md">
                             <i class="fas fa-wand-magic-sparkles text-sm"></i>
                         </div>
-                        <span class="font-bold text-lg text-gray-800 hidden sm:block">AI Hub Pro</span>
+                        <span class="font-bold text-lg text-gray-800">AI Hub Pro</span>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <button onclick="toggleSettings()" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition" title="Pengaturan">
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleSettings()" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 active:bg-gray-300 flex items-center justify-center text-gray-600 transition">
                             <i class="fas fa-cog"></i>
                         </button>
-                        <button onclick="logout()" class="w-10 h-10 rounded-full bg-red-50 hover:bg-red-100 flex items-center justify-center text-red-600 transition" title="Keluar">
-                            <i class="fas fa-sign-out-alt"></ is="fas fa-sign-out-alt"></i>
+                        <button onclick="logout()" class="w-10 h-10 rounded-full bg-red-50 hover:bg-red-100 active:bg-red-200 flex items-center justify-center text-red-600 transition">
+                            <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- Panel Pengaturan (Collapsible) -->
+        <!-- Panel Pengaturan -->
         <div id="settingsPanel" class="hidden bg-amber-50 border-b border-amber-200 p-4 fade-in">
             <div class="max-w-5xl mx-auto">
-                <h3 class="text-sm font-bold text-amber-800 mb-2"><i class="fas fa-info-circle mr-1"></i> Pengaturan Lanjutan</h3>
-                <p class="text-xs text-amber-700 mb-3">Fitur Video menggunakan server gratis. Jika "Rate Limit", masukkan Token Gratis dari <a href="https://huggingface.co/settings/tokens" target="_blank" class="underline font-bold">Hugging Face</a>.</p>
-                <input type="password" id="hfToken" placeholder="Tempel Hugging Face Token di sini (opsional)..." class="w-full px-4 py-2.5 border border-amber-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white">
+                <h3 class="text-sm font-bold text-amber-800 mb-2"><i class="fas fa-info-circle mr-1"></i> Pengaturan Video</h3>
+                <p class="text-xs text-amber-700 mb-3">Masukkan Hugging Face Token (gratis) untuk akses video yang lebih stabil.</p>
+                <input type="password" id="hfToken" placeholder="Token (opsional)..." class="w-full px-4 py-2.5 border border-amber-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white">
             </div>
         </div>
 
-        <main class="flex-grow max-w-5xl mx-auto px-4 py-6 w-full">
-            <!-- Welcome Banner (Compact on Mobile) -->
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-5 mb-6 text-white shadow-lg fade-in relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
+        <main class="flex-grow max-w-5xl mx-auto px-4 py-4 w-full">
+            <!-- Welcome Banner -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-5 mb-4 text-white shadow-lg fade-in">
                 <h2 class="text-xl font-bold mb-1">Halo, <span id="userNameDisplay">Pengguna</span>! 👋</h2>
-                <p class="text-blue-100 text-sm">Buat konten kreatif & gunakan tools gratis tanpa batas.</p>
+                <p class="text-blue-100 text-sm">Buat konten kreatif tanpa batas</p>
             </div>
 
-            <!-- ==================== TABS NAVIGATION (Mobile Swipeable) ==================== -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6 fade-in">
-                <div class="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory border-b border-gray-100" id="tabContainer">
-                    <button onclick="switchTab('chat')" id="tabChat" class="snap-center shrink-0 flex-1 min-w-[80px] py-4 px-2 text-center text-sm font-semibold tab-active transition flex flex-col items-center gap-1">
-                        <i class="fas fa-comments text-lg"></i> <span class="hidden xs:inline">Chat</span>
+            <!-- TABS NAVIGATION -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4 fade-in">
+                <div class="flex overflow-x-auto scrollbar-hide snap-x border-b border-gray-100">
+                    <button onclick="switchTab('chat')" id="tabChat" class="snap-center shrink-0 flex-1 min-w-[70px] py-3.5 px-2 text-center text-xs font-semibold tab-active transition flex flex-col items-center gap-1">
+                        <i class="fas fa-comments text-base"></i> <span>Chat</span>
                     </button>
-                    <button onclick="switchTab('image')" id="tabImage" class="snap-center shrink-0 flex-1 min-w-[80px] py-4 px-2 text-center text-sm font-semibold tab-inactive transition flex flex-col items-center gap-1">
-                        <i class="fas fa-image text-lg"></i> <span class="hidden xs:inline">Gambar</span>
+                    <button onclick="switchTab('image')" id="tabImage" class="snap-center shrink-0 flex-1 min-w-[70px] py-3.5 px-2 text-center text-xs font-semibold tab-inactive transition flex flex-col items-center gap-1">
+                        <i class="fas fa-image text-base"></i> <span>Gambar</span>
                     </button>
-                    <button onclick="switchTab('video')" id="tabVideo" class="snap-center shrink-0 flex-1 min-w-[80px] py-4 px-2 text-center text-sm font-semibold tab-inactive transition flex flex-col items-center gap-1">
-                        <i class="fas fa-video text-lg"></i> <span class="hidden xs:inline">Video</span>
+                    <button onclick="switchTab('video')" id="tabVideo" class="snap-center shrink-0 flex-1 min-w-[70px] py-3.5 px-2 text-center text-xs font-semibold tab-inactive transition flex flex-col items-center gap-1">
+                        <i class="fas fa-video text-base"></i> <span>Video</span>
                     </button>
-                    <button onclick="switchTab('audio')" id="tabAudio" class="snap-center shrink-0 flex-1 min-w-[80px] py-4 px-2 text-center text-sm font-semibold tab-inactive transition flex flex-col items-center gap-1">
-                        <i class="fas fa-music text-lg"></i> <span class="hidden xs:inline">Audio</span>
+                    <button onclick="switchTab('audio')" id="tabAudio" class="snap-center shrink-0 flex-1 min-w-[70px] py-3.5 px-2 text-center text-xs font-semibold tab-inactive transition flex flex-col items-center gap-1">
+                        <i class="fas fa-music text-base"></i> <span>Audio</span>
                     </button>
-                    <button onclick="switchTab('tools')" id="tabTools" class="snap-center shrink-0 flex-1 min-w-[80px] py-4 px-2 text-center text-sm font-semibold tab-inactive transition flex flex-col items-center gap-1">
-                        <i class="fas fa-toolbox text-lg"></i> <span class="hidden xs:inline">Tools</span>
+                    <button onclick="switchTab('tools')" id="tabTools" class="snap-center shrink-0 flex-1 min-w-[70px] py-3.5 px-2 text-center text-xs font-semibold tab-inactive transition flex flex-col items-center gap-1">
+                        <i class="fas fa-toolbox text-base"></i> <span>Tools</span>
                     </button>
                 </div>
 
-                <!-- 1. TAB CHAT -->
-                <div id="contentChat" class="p-4 md:p-6">
-                    <div id="chatHistory" class="h-[50vh] md:h-96 overflow-y-auto chat-scroll space-y-4 mb-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                        <div class="flex items-start gap-3">
-                            <div class="bg-blue-100 p-2 rounded-full shrink-0"><i class="fas fa-robot text-blue-600 text-sm"></i></div>
-                            <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 break-words">
+                <!-- TAB CHAT -->
+                <div id="contentChat" class="p-4">
+                    <div id="chatHistory" class="h-[45vh] overflow-y-auto chat-scroll space-y-3 mb-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                        <div class="flex items-start gap-2">
+                            <div class="bg-blue-100 p-2 rounded-full shrink-0"><i class="fas fa-robot text-blue-600 text-xs"></i></div>
+                            <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-xs text-gray-700 break-words leading-relaxed">
                                 Halo! Saya siap membantu brainstorming, menulis, atau coding. Tanyakan apa saja!
                             </div>
                         </div>
                     </div>
                     <div class="flex gap-2">
                         <input type="text" id="chatInput" placeholder="Ketik pesan..." class="flex-grow px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" onkeypress="if(event.key === 'Enter') sendChat()">
-                        <button onclick="sendChat()" id="btnSendChat" class="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white w-12 md:w-auto md:px-6 rounded-xl font-semibold transition flex items-center justify-center shrink-0">
+                        <button onclick="sendChat()" id="btnSendChat" class="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white w-12 rounded-xl font-semibold transition flex items-center justify-center shrink-0">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- 2. TAB GAMBAR -->
-                <div id="contentImage" class="p-4 md:p-6 hidden">
-                    <div class="space-y-4">
+                <!-- TAB GAMBAR -->
+                <div id="contentImage" class="p-4 hidden">
+                    <div class="space-y-3">
                         <div class="relative">
-                            <textarea id="imagePrompt" rows="3" placeholder="Deskripsikan gambar... (misal: Kucing astronot cyberpunk)" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"></textarea>
-                            <button onclick="enhancePrompt('imagePrompt')" class="absolute bottom-3 right-3 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
-                                <i class="fas fa-sparkles"></i> Perbaiki AI
+                            <textarea id="imagePrompt" rows="3" placeholder="Deskripsikan gambar..." class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm resize-none"></textarea>
+                            <button onclick="enhancePrompt('imagePrompt')" class="absolute bottom-2 right-2 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                                <i class="fas fa-sparkles"></i> Perbaiki
                             </button>
                         </div>
-                        
-                        <label class="flex items-center gap-3 p-3 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-gray-50 transition">
+                        <label class="flex items-center gap-3 p-3 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer active:bg-gray-50 transition">
                             <i class="fas fa-cloud-upload-alt text-gray-400 text-xl"></i>
                             <div class="flex-1">
-                                <p class="text-sm font-medium text-gray-700">Upload Foto Referensi (Opsional)</p>
-                                <p class="text-xs text-gray-400">AI akan menyesuaikan gaya dengan foto ini</p>
+                                <p class="text-sm font-medium text-gray-700">Upload Referensi</p>
+                                <p class="text-xs text-gray-400">Opsional</p>
                             </div>
                             <input type="file" id="imageRef" accept="image/*" class="hidden" onchange="handleImageUpload(this, 'imagePreview')">
                         </label>
-                        <img id="imagePreview" class="hidden w-full max-h-48 object-cover rounded-xl shadow-sm border border-gray-200">
-
-                        <button onclick="generateImage()" id="btnGenImage" class="w-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white py-3.5 rounded-xl font-semibold transition shadow-md shadow-purple-200">
-                            <i class="fas fa-wand-magic-sparkles mr-2"></i>Generate Gambar
+                        <img id="imagePreview" class="hidden w-full h-40 object-cover rounded-xl shadow-sm border border-gray-200">
+                        <button onclick="generateImage()" id="btnGenImage" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-3.5 rounded-xl font-semibold transition shadow-md active:scale-95">
+                            <i class="fas fa-wand-magic-sparkles mr-2"></i>Generate
                         </button>
                     </div>
-                    <div id="imageResult" class="hidden mt-6 flex flex-col items-center p-4 bg-gray-50 rounded-xl border border-gray-200">
-                        <img id="generatedImg" src="" alt="AI Generated" class="w-full rounded-lg shadow-md mb-4">
-                        <a id="downloadImgBtn" href="#" download="ai-image.jpg" class="text-sm text-blue-600 hover:underline font-semibold flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-lg">
-                            <i class="fas fa-download"></i> Simpan Gambar HD
+                    <div id="imageResult" class="hidden mt-4 flex flex-col items-center p-4 bg-gray-50 rounded-xl border border-gray-200">
+                        <img id="generatedImg" src="" class="w-full rounded-lg shadow-md mb-3">
+                        <a id="downloadImgBtn" href="#" download class="text-xs text-blue-600 font-semibold flex items-center gap-1 bg-blue-50 px-4 py-2 rounded-lg active:bg-blue-100">
+                            <i class="fas fa-download"></i> Simpan
                         </a>
                     </div>
-                    <div id="imageLoading" class="hidden mt-6 flex flex-col items-center p-8">
-                        <i class="fas fa-circle-notch fa-spin text-4xl text-purple-600 mb-3"></i>
-                        <p class="text-gray-500 text-sm">Sedang melukis masterpiece...</p>
+                    <div id="imageLoading" class="hidden mt-4 flex flex-col items-center p-6">
+                        <i class="fas fa-circle-notch fa-spin text-3xl text-purple-600 mb-2"></i>
+                        <p class="text-gray-500 text-xs">Generating...</p>
                     </div>
                 </div>
 
-                <!-- 3. TAB VIDEO -->
-                <div id="contentVideo" class="p-4 md:p-6 hidden">
-                    <div class="space-y-4">
+                <!-- TAB VIDEO -->
+                <div id="contentVideo" class="p-4 hidden">
+                    <div class="space-y-3">
                         <div class="relative">
-                            <textarea id="videoPrompt" rows="3" placeholder="Deskripsi video... (misal: Drone shot gunung bersalju, cinematic 4k)" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
-                            <button onclick="enhancePrompt('videoPrompt')" class="absolute bottom-3 right-3 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
-                                <i class="fas fa-sparkles"></i> Perbaiki AI
+                            <textarea id="videoPrompt" rows="3" placeholder="Deskripsi video..." class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm resize-none"></textarea>
+                            <button onclick="enhancePrompt('videoPrompt')" class="absolute bottom-2 right-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+                                <i class="fas fa-sparkles"></i> Perbaiki
                             </button>
                         </div>
-                        <button onclick="generateVideo()" id="btnGenVideo" class="w-full bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white py-3.5 rounded-xl font-semibold transition shadow-md shadow-indigo-200">
-                            <i class="fas fa-film mr-2"></i>Generate Video Clip
+                        <button onclick="generateVideo()" id="btnGenVideo" class="w-full bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white py-3.5 rounded-xl font-semibold transition shadow-md active:scale-95">
+                            <i class="fas fa-film mr-2"></i>Generate Video
                         </button>
                     </div>
-                    <div id="videoResult" class="hidden mt-6 flex flex-col items-center p-4 bg-gray-50 rounded-xl border border-gray-200">
-                        <video id="generatedVideo" controls class="w-full rounded-lg shadow-md mb-4 max-h-96 bg-black"></video>
-                        <p class="text-sm text-green-700 font-medium"><i class="fas fa-check-circle mr-1"></i> Video berhasil dibuat!</p>
+                    <div id="videoResult" class="hidden mt-4">
+                        <video id="generatedVideo" controls class="w-full rounded-lg shadow-md mb-3 bg-black"></video>
+                        <p class="text-xs text-green-700 text-center"><i class="fas fa-check-circle mr-1"></i> Berhasil!</p>
                     </div>
-                    <div id="videoLoading" class="hidden mt-6 flex flex-col items-center p-8">
-                        <i class="fas fa-circle-notch fa-spin text-4xl text-indigo-600 mb-3"></i>
-                        <p class="text-gray-500 text-sm text-center">Merender frame video (30-60 detik)...</p>
+                    <div id="videoLoading" class="hidden mt-4 flex flex-col items-center p-6">
+                        <i class="fas fa-circle-notch fa-spin text-3xl text-indigo-600 mb-2"></i>
+                        <p class="text-gray-500 text-xs text-center">Rendering... (30-60 detik)</p>
                     </div>
-                    <div id="videoFallback" class="hidden mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl text-center">
-                        <p class="text-sm text-amber-800 mb-3"><i class="fas fa-exclamation-triangle mr-1"></i> Server gratis sedang antri.</p>
-                        <button onclick="launchVideoGen()" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold w-full">
-                            <i class="fas fa-external-link-alt mr-1"></i> Lanjut di Luma Dream Machine (Gratis)
+                    <div id="videoFallback" class="hidden mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl text-center">
+                        <p class="text-xs text-amber-800 mb-2"><i class="fas fa-exclamation-triangle mr-1"></i> Server penuh</p>
+                        <button onclick="launchVideoGen()" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-lg text-xs font-semibold w-full active:scale-95">
+                            Buka Luma (Gratis)
                         </button>
                     </div>
                 </div>
 
-                <!-- 4. TAB AUDIO -->
-                <div id="contentAudio" class="p-4 md:p-6 hidden space-y-4">
-                    <div class="bg-blue-50 p-5 rounded-xl border border-blue-100">
-                        <h3 class="font-bold text-blue-800 mb-3 text-sm"><i class="fas fa-microphone mr-2"></i>Narasi Suara (TTS)</h3>
-                        <textarea id="ttsInput" rows="3" placeholder="Teks yang ingin diubah menjadi suara..." class="w-full px-3 py-2 border border-blue-200 rounded-lg mb-3 text-sm bg-white"></textarea>
+                <!-- TAB AUDIO -->
+                <div id="contentAudio" class="p-4 hidden space-y-3">
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <h3 class="font-bold text-blue-800 mb-2 text-xs"><i class="fas fa-microphone mr-2"></i>Narasi Suara</h3>
+                        <textarea id="ttsInput" rows="2" placeholder="Teks untuk suara..." class="w-full px-3 py-2 border border-blue-200 rounded-lg mb-2 text-xs bg-white resize-none"></textarea>
                         <div class="flex gap-2">
-                            <select id="ttsVoice" class="px-3 py-2 border border-blue-200 rounded-lg text-sm flex-grow bg-white">
-                                <option value="id-ID">🇮🇩 Bahasa Indonesia</option>
-                                <option value="en-US">🇺🇸 English (US)</option>
+                            <select id="ttsVoice" class="px-3 py-2 border border-blue-200 rounded-lg text-xs flex-grow bg-white">
+                                <option value="id-ID">🇮🇩 Indonesia</option>
+                                <option value="en-US">🇺🇸 English</option>
                             </select>
-                            <button onclick="playTTS()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shrink-0"><i class="fas fa-play mr-1"></i> Putar</button>
+                            <button onclick="playTTS()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-semibold active:scale-95"><i class="fas fa-play mr-1"></i> Putar</button>
                         </div>
                     </div>
-                    <div class="bg-pink-50 p-5 rounded-xl border border-pink-100">
-                        <h3 class="font-bold text-pink-800 mb-2 text-sm"><i class="fas fa-music mr-2"></i>Generator Musik AI</h3>
-                        <p class="text-xs text-pink-700 mb-3">Deskripsikan lagu. Kami akan menyiapkan prompt sempurna untuk Anda.</p>
-                        <input type="text" id="musicPrompt" placeholder="Contoh: Lo-fi hip hop beat santai..." class="w-full px-3 py-2.5 border border-pink-200 rounded-lg mb-3 text-sm bg-white">
-                        <button onclick="launchMusicGen()" class="w-full bg-pink-600 hover:bg-pink-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold">
-                            <i class="fas fa-external-link-alt mr-1"></i> Buat di Suno.ai (Gratis)
+                    <div class="bg-pink-50 p-4 rounded-xl border border-pink-100">
+                        <h3 class="font-bold text-pink-800 mb-2 text-xs"><i class="fas fa-music mr-2"></i>Musik AI</h3>
+                        <input type="text" id="musicPrompt" placeholder="Contoh: Lo-fi beat santai..." class="w-full px-3 py-2.5 border border-pink-200 rounded-lg mb-2 text-xs bg-white">
+                        <button onclick="launchMusicGen()" class="w-full bg-pink-600 hover:bg-pink-700 text-white px-4 py-2.5 rounded-lg text-xs font-semibold active:scale-95">
+                            <i class="fas fa-external-link-alt mr-1"></i> Buat di Suno
                         </button>
                     </div>
                 </div>
 
-                <!-- 5. TAB TOOLS BARU (UTILITAS) -->
-                <div id="contentTools" class="p-4 md:p-6 hidden space-y-6">
-                    <!-- QR Code Generator -->
-                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                        <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2"><i class="fas fa-qrcode text-blue-600"></i> Generator QR Code</h3>
-                        <input type="text" id="qrInput" placeholder="Masukkan URL atau teks..." class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        <button onclick="generateQR()" class="w-full bg-gray-800 hover:bg-gray-900 text-white py-2.5 rounded-lg text-sm font-semibold mb-4">Buat QR Code</button>
+                <!-- TAB TOOLS -->
+                <div id="contentTools" class="p-4 hidden space-y-4">
+                    <!-- QR Code -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm tool-card transition">
+                        <h3 class="font-bold text-gray-800 mb-3 text-sm flex items-center gap-2"><i class="fas fa-qrcode text-blue-600"></i> QR Code</h3>
+                        <input type="text" id="qrInput" placeholder="URL atau teks..." class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-3 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        <button onclick="generateQR()" class="w-full bg-gray-800 hover:bg-gray-900 text-white py-3 rounded-lg text-sm font-semibold mb-3 active:scale-95">Buat QR</button>
                         <div id="qrResult" class="hidden flex flex-col items-center p-4 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-                            <img id="qrImage" src="" class="w-48 h-48 mb-3 rounded-lg shadow-sm">
-                            <a id="downloadQrBtn" href="#" download="qrcode.png" class="text-xs text-blue-600 font-semibold hover:underline"><i class="fas fa-download mr-1"></i> Download QR</a>
+                            <img id="qrImage" class="w-40 h-40 mb-2 rounded-lg shadow-sm">
+                            <a id="downloadQrBtn" href="#" download class="text-xs text-blue-600 font-semibold"><i class="fas fa-download mr-1"></i> Download</a>
                         </div>
                     </div>
 
-                    <!-- Password Generator -->
-                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                        <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2"><i class="fas fa-shield-alt text-green-600"></i> Generator Password Aman</h3>
+                    <!-- Password -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm tool-card transition">
+                        <h3 class="font-bold text-gray-800 mb-3 text-sm flex items-center gap-2"><i class="fas fa-shield-alt text-green-600"></i> Password</h3>
                         <div class="flex gap-2 mb-3">
-                            <input type="text" id="passwordResult" readonly class="flex-grow px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-sm font-mono text-gray-700">
-                            <button onclick="copyPassword()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 rounded-lg"><i class="fas fa-copy"></i></button>
+                            <input type="text" id="passwordResult" readonly class="flex-grow px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-sm font-mono">
+                            <button onclick="copyPassword()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 rounded-lg active:scale-95"><i class="fas fa-copy"></i></button>
                         </div>
-                        <div class="flex items-center justify-between mb-4">
-                            <label class="text-sm text-gray-600">Panjang: <span id="passLengthVal" class="font-bold">12</span></label>
-                            <input type="range" id="passLength" min="8" max="32" value="12" class="w-1/2 accent-blue-600" oninput="document.getElementById('passLengthVal').innerText = this.value; generatePassword()">
+                        <div class="mb-3">
+                            <div class="flex justify-between text-xs text-gray-600 mb-1">
+                                <span>Panjang</span>
+                                <span id="passLengthVal" class="font-bold">12</span>
+                            </div>
+                            <input type="range" id="passLength" min="8" max="32" value="12" class="w-full accent-blue-600" oninput="document.getElementById('passLengthVal').innerText = this.value; generatePassword()">
                         </div>
-                        <button onclick="generatePassword()" class="w-full bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg text-sm font-semibold">Generate Password Baru</button>
+                        <button onclick="generatePassword()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg text-sm font-semibold active:scale-95">Generate</button>
                     </div>
                 </div>
-
             </div>
 
-            <!-- Rekomendasi Aplikasi Eksternal -->
-            <div class="mb-8">
-                <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
-                    <i class="fas fa-star text-yellow-500"></i> Tools Eksternal Gratis Terbaik
+            <!-- External Apps -->
+            <div class="mb-4">
+                <h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-star text-yellow-500"></i> Tools Eksternal
                 </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="externalAppsGrid">
-                    <!-- Diisi oleh JS -->
-                </div>
+                <div class="grid grid-cols-2 gap-3" id="externalAppsGrid"></div>
             </div>
         </main>
 
-        <footer class="bg-white border-t border-gray-200 py-6 mt-auto">
-            <div class="max-w-5xl mx-auto px-4 text-center text-gray-400 text-xs">
-                &copy; 2026 AI Hub Pro Studio. 100% Gratis & Open Source.
-            </div>
+        <footer class="bg-white border-t border-gray-200 py-4 mt-auto">
+            <div class="text-center text-gray-400 text-xs">© 2026 AI Hub Pro</div>
         </footer>
     </div>
 
-    <!-- Script Javascript -->
     <script>
-        // --- 1. SISTEM AUTHENTIKASI ---
+        // AUTH
         function checkAuth() {
             const isLoggedIn = localStorage.getItem('aiHub_loggedIn');
             const userEmail = localStorage.getItem('aiHub_userEmail');
             if (isLoggedIn && userEmail) {
                 document.getElementById('loginSection').classList.add('hidden');
                 document.getElementById('dashboardSection').classList.remove('hidden');
-                document.getElementById('userEmailDisplay').textContent = userEmail;
-                document.getElementById('userNameDisplay').textContent = userEmail.split('@')[0];
+                const nameEl = document.getElementById('userNameDisplay');
+                if(nameEl) nameEl.textContent = userEmail.split('@')[0];
                 renderExternalApps();
-                generatePassword(); // Init password generator
+                generatePassword();
             } else {
                 document.getElementById('loginSection').classList.remove('hidden');
                 document.getElementById('dashboardSection').classList.add('hidden');
@@ -305,7 +293,7 @@
                 localStorage.setItem('aiHub_userEmail', email);
                 checkAuth();
             } else {
-                alert("Mohon masukkan email yang valid dan password (min. 4 karakter).");
+                alert("Email valid & password min. 4 karakter");
             }
         });
 
@@ -321,17 +309,15 @@
             document.getElementById('settingsPanel').classList.toggle('hidden');
         }
 
-        // --- 2. MANAJEMEN TAB (Mobile Optimized) ---
+        // TABS
         function switchTab(tab) {
-            const tabs = ['chat', 'image', 'video', 'audio', 'tools'];
-            tabs.forEach(t => {
+            ['chat', 'image', 'video', 'audio', 'tools'].forEach(t => {
                 const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
                 const content = document.getElementById('content' + t.charAt(0).toUpperCase() + t.slice(1));
                 if (t === tab) {
                     btn.classList.remove('tab-inactive');
                     btn.classList.add('tab-active');
                     content.classList.remove('hidden');
-                    // Scroll tab into view on mobile
                     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else {
                     btn.classList.remove('tab-active');
@@ -341,34 +327,29 @@
             });
         }
 
-        // --- 3. FITUR CHAT ---
+        // CHAT
         async function sendChat() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             if(!message) return;
-
             const chatHistory = document.getElementById('chatHistory');
             const btn = document.getElementById('btnSendChat');
-            
-            chatHistory.innerHTML += `<div class="flex items-start gap-3 justify-end"><div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm max-w-[85%] break-words">${message}</div><div class="bg-gray-200 p-2 rounded-full shrink-0"><i class="fas fa-user text-gray-600 text-xs"></i></div></div>`;
+            chatHistory.innerHTML += `<div class="flex items-start gap-2 justify-end"><div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-xs max-w-[85%] break-words">${message}</div></div>`;
             input.value = '';
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
             chatHistory.scrollTop = chatHistory.scrollHeight;
-
             const loadingId = 'loading-' + Date.now();
-            chatHistory.innerHTML += `<div id="${loadingId}" class="flex items-start gap-3"><div class="bg-blue-100 p-2 rounded-full shrink-0"><i class="fas fa-robot text-blue-600 text-xs"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-500"><i class="fas fa-circle-notch fa-spin mr-2"></i>Mengetik...</div></div>`;
+            chatHistory.innerHTML += `<div id="${loadingId}" class="flex items-start gap-2"><div class="bg-blue-100 p-2 rounded-full shrink-0"><i class="fas fa-robot text-blue-600 text-xs"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-xs text-gray-500">Mengetik...</div></div>`;
             chatHistory.scrollTop = chatHistory.scrollHeight;
-
             try {
-                const seed = Math.floor(Math.random() * 10000);
-                const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(message)}?seed=${seed}&json=false`);
+                const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(message)}?seed=${Math.floor(Math.random() * 10000)}`);
                 const aiReply = await response.text();
                 document.getElementById(loadingId).remove();
-                chatHistory.innerHTML += `<div class="flex items-start gap-3"><div class="bg-blue-100 p-2 rounded-full shrink-0"><i class="fas fa-robot text-blue-600 text-xs"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[85%] break-words whitespace-pre-wrap">${aiReply}</div></div>`;
-            } catch (error) {
+                chatHistory.innerHTML += `<div class="flex items-start gap-2"><div class="bg-blue-100 p-2 rounded-full shrink-0"><i class="fas fa-robot text-blue-600 text-xs"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-xs text-gray-700 max-w-[85%] break-words whitespace-pre-wrap">${aiReply}</div></div>`;
+            } catch {
                 document.getElementById(loadingId).remove();
-                chatHistory.innerHTML += `<div class="text-center text-red-500 text-xs py-2">Gagal terhubung. Coba lagi.</div>`;
+                chatHistory.innerHTML += `<div class="text-center text-red-500 text-xs py-2">Gagal. Coba lagi.</div>`;
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
@@ -376,149 +357,115 @@
             }
         }
 
-        // --- 4. FITUR GAMBAR & ENHANCER ---
+        // IMAGE
         async function enhancePrompt(inputId) {
             const input = document.getElementById(inputId);
             const original = input.value.trim();
-            if(!original) return alert("Isi deskripsi terlebih dahulu.");
-            
-            const originalBtnText = event.currentTarget.innerHTML;
-            event.currentTarget.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> AI Berpikir...';
-            event.currentTarget.disabled = true;
-
+            if(!original) return alert("Isi deskripsi dulu");
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+            btn.disabled = true;
             try {
-                const response = await fetch(`https://text.pollinations.ai/Improve+this+image+prompt+to+be+highly+detailed,+professional,+cinematic+lighting,+8k+resolution.+Keep+the+core+subject+but+make+it+visually+stunning.+Original+prompt:+${encodeURIComponent(original)}`);
-                const enhanced = await response.text();
-                input.value = enhanced;
-            } catch(e) {
-                alert("Gagal memperbaiki prompt. Coba lagi.");
-            } finally {
-                event.currentTarget.innerHTML = originalBtnText;
-                event.currentTarget.disabled = false;
-            }
+                const response = await fetch(`https://text.pollinations.ai/Improve+this+image+prompt:+${encodeURIComponent(original)}`);
+                input.value = await response.text();
+            } catch { alert("Gagal"); }
+            finally { btn.innerHTML = originalText; btn.disabled = false; }
         }
 
         function handleImageUpload(input, previewId) {
             const file = input.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = (e) => {
                     const img = document.getElementById(previewId);
                     img.src = e.target.result;
                     img.classList.remove('hidden');
-                }
+                };
                 reader.readAsDataURL(file);
             }
         }
 
         async function generateImage() {
             const prompt = document.getElementById('imagePrompt').value.trim();
-            const refFile = document.getElementById('imageRef').files[0];
-            if(!prompt) return alert("Mohon isi deskripsi gambar.");
-
+            if(!prompt) return alert("Isi deskripsi");
             const loading = document.getElementById('imageLoading');
             const result = document.getElementById('imageResult');
             const img = document.getElementById('generatedImg');
             const btn = document.getElementById('btnGenImage');
-
             loading.classList.remove('hidden');
             result.classList.add('hidden');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i>Generating...';
-
-            let finalPrompt = prompt;
-            if(refFile) finalPrompt += ` (Style reference based on uploaded image)`;
-
-            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}?width=1024&height=1024&nologo=true&seed=${Math.floor(Math.random() * 10000)}`;
-            
+            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&nologo=true`;
             img.onload = () => {
                 loading.classList.add('hidden');
                 result.classList.remove('hidden');
                 img.src = imageUrl;
                 document.getElementById('downloadImgBtn').href = imageUrl;
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-wand-magic-sparkles mr-2"></i>Generate Gambar';
             };
             img.src = imageUrl;
         }
 
-        // --- 5. FITUR VIDEO ---
+        // VIDEO
         async function generateVideo() {
             const prompt = document.getElementById('videoPrompt').value.trim();
-            const hfToken = document.getElementById('hfToken').value.trim();
-            if(!prompt) return alert("Mohon isi deskripsi video.");
-
+            if(!prompt) return alert("Isi deskripsi");
             const loading = document.getElementById('videoLoading');
             const result = document.getElementById('videoResult');
             const fallback = document.getElementById('videoFallback');
             const btn = document.getElementById('btnGenVideo');
-
             loading.classList.remove('hidden');
             result.classList.add('hidden');
             fallback.classList.add('hidden');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i>Merender...';
-
             try {
-                const model = "damo-vilab/text-to-video-ms-1.7b";
                 const headers = { "Content-Type": "application/json" };
-                if(hfToken) headers["Authorization"] = `Bearer ${hfToken}`;
-
-                const response = await fetch(`https://api-inference.huggingface.co/models/${model}`, {
-                    method: "POST",
-                    headers: headers,
-                    body: JSON.stringify({ inputs: prompt })
+                const token = document.getElementById('hfToken').value.trim();
+                if(token) headers["Authorization"] = `Bearer ${token}`;
+                const response = await fetch(`https://api-inference.huggingface.co/models/damo-vilab/text-to-video-ms-1.7b`, {
+                    method: "POST", headers, body: JSON.stringify({ inputs: prompt })
                 });
-
                 if(response.status === 503 || response.status === 429) throw new Error("Rate Limit");
-
                 const blob = await response.blob();
-                const videoUrl = URL.createObjectURL(blob);
-                
                 loading.classList.add('hidden');
                 result.classList.remove('hidden');
-                document.getElementById('generatedVideo').src = videoUrl;
-            } catch (error) {
+                document.getElementById('generatedVideo').src = URL.createObjectURL(blob);
+            } catch {
                 loading.classList.add('hidden');
                 fallback.classList.remove('hidden');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-film mr-2"></i>Generate Video Clip';
-            }
+            } finally { btn.disabled = false; }
         }
 
         function launchVideoGen() {
             const prompt = document.getElementById('videoPrompt').value.trim();
-            navigator.clipboard.writeText(prompt).then(() => {
-                alert("Prompt disalin! Buka Luma Dream Machine dan tempel di sana.");
-                window.open('https://lumalabs.ai/dream-machine', '_blank');
-            });
+            navigator.clipboard.writeText(prompt);
+            alert("Prompt disalin! Buka Luma Dream Machine");
+            window.open('https://lumalabs.ai/dream-machine', '_blank');
         }
 
-        // --- 6. FITUR AUDIO ---
+        // AUDIO
         function playTTS() {
             const text = document.getElementById('ttsInput').value.trim();
-            const lang = document.getElementById('ttsVoice').value;
-            if(!text) return alert("Masukkan teks terlebih dahulu.");
+            if(!text) return alert("Masukkan teks");
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = lang;
+            utterance.lang = document.getElementById('ttsVoice').value;
             window.speechSynthesis.speak(utterance);
         }
 
         function launchMusicGen() {
             const prompt = document.getElementById('musicPrompt').value.trim();
-            if(!prompt) return alert("Masukkan deskripsi musik.");
-            navigator.clipboard.writeText(prompt).then(() => {
-                alert("Prompt disalin! Tempel di Suno.ai (Custom Mode).");
-                window.open('https://suno.com/create', '_blank');
-            });
+            if(!prompt) return alert("Isi deskripsi");
+            navigator.clipboard.writeText(prompt);
+            alert("Prompt disalin! Tempel di Suno.ai");
+            window.open('https://suno.com/create', '_blank');
         }
 
-        // --- 7. FITUR TOOLS BARU (QR & PASSWORD) ---
+        // TOOLS
         function generateQR() {
             const text = document.getElementById('qrInput').value.trim();
-            if(!text) return alert("Masukkan URL atau teks.");
-            const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent(text)}`;
+            if(!text) return alert("Masukkan URL/teks");
+            const url = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
             document.getElementById('qrImage').src = url;
             document.getElementById('downloadQrBtn').href = url;
             document.getElementById('qrResult').classList.remove('hidden');
@@ -526,11 +473,9 @@
 
         function generatePassword() {
             const length = document.getElementById('passLength').value;
-            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
             let retVal = "";
-            for (let i = 0, n = charset.length; i < length; ++i) {
-                retVal += charset.charAt(Math.floor(Math.random() * n));
-            }
+            for (let i = 0; i < length; ++i) retVal += charset.charAt(Math.floor(Math.random() * charset.length));
             document.getElementById('passwordResult').value = retVal;
         }
 
@@ -538,26 +483,22 @@
             const copyText = document.getElementById("passwordResult");
             copyText.select();
             document.execCommand("copy");
-            alert("Password disalin ke clipboard!");
+            alert("Password disalin!");
         }
 
-        // --- 8. DATA APLIKASI EKSTERNAL ---
+        // EXTERNAL APPS
         function renderExternalApps() {
             const apps = [
-                { nama: "Suno AI", desc: "Buat lagu & vokal AI gratis.", link: "https://suno.com", icon: "fa-music", color: "text-pink-600", bg: "bg-pink-50" },
-                { nama: "Luma Dream Machine", desc: "Text-to-Video gratis kualitas tinggi.", link: "https://lumalabs.ai/dream-machine", icon: "fa-video", color: "text-indigo-600", bg: "bg-indigo-50" },
-                { nama: "Remove.bg", desc: "Hapus background foto otomatis & gratis.", link: "https://www.remove.bg", icon: "fa-eraser", color: "text-red-600", bg: "bg-red-50" },
-                { nama: "Canva Magic Studio", desc: "Desain grafis dengan fitur AI terintegrasi.", link: "https://www.canva.com/magic-studio", icon: "fa-palette", color: "text-purple-600", bg: "bg-purple-50" }
+                { nama: "Suno AI", desc: "Buat lagu", link: "https://suno.com", icon: "fa-music", color: "text-pink-600", bg: "bg-pink-50" },
+                { nama: "Luma", desc: "Video AI", link: "https://lumalabs.ai", icon: "fa-video", color: "text-indigo-600", bg: "bg-indigo-50" },
+                { nama: "Remove.bg", desc: "Hapus bg", link: "https://remove.bg", icon: "fa-eraser", color: "text-red-600", bg: "bg-red-50" },
+                { nama: "Canva", desc: "Desain", link: "https://canva.com", icon: "fa-palette", color: "text-purple-600", bg: "bg-purple-50" }
             ];
-
-            const grid = document.getElementById('externalAppsGrid');
-            grid.innerHTML = apps.map(app => `
-                <a href="${app.link}" target="_blank" class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition group flex items-start gap-3">
-                    <div class="${app.bg} p-2.5 rounded-lg shrink-0"><i class="fas ${app.icon} ${app.color}"></i></div>
-                    <div>
-                        <h4 class="font-bold text-gray-800 text-sm group-hover:text-blue-600 transition">${app.nama}</h4>
-                        <p class="text-xs text-gray-500 leading-relaxed mt-1">${app.desc}</p>
-                   1</div>
+            document.getElementById('externalAppsGrid').innerHTML = apps.map(app => `
+                <a href="${app.link}" target="_blank" class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm active:scale-95 transition block">
+                    <div class="${app.bg} w-10 h-10 rounded-lg flex items-center justify-center mb-2"><i class="fas ${app.icon} ${app.color}"></i></div>
+                    <h4 class="font-bold text-gray-800 text-xs">${app.nama}</h4>
+                    <p class="text-gray-500 text-xs">${app.desc}</p>
                 </a>
             `).join('');
         }
