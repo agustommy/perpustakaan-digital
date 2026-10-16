@@ -3,147 +3,652 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perpustakaan Produk Digital</title>
-    <!-- Tailwind CSS CDN -->
+    <title>AI Hub - Akses Semua AI dalam Satu Tempat</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome untuk Ikon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .chat-bubble { max-width: 75%; }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .ai-card:hover { transform: translateY(-4px); }
+        .ai-card { transition: all 0.3s ease; }
+        .typing::after { content: '●'; animation: typing 1.4s infinite; }
+        @keyframes typing { 0%, 60%, 100% { opacity: 0; } 30% { opacity: 1; } }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-    <!-- Header -->
-    <header class="bg-blue-600 text-white p-8 shadow-md">
-        <div class="max-w-6xl mx-auto text-center">
-            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-book-open mr-2"></i> Gudang Produk Digital</h1>
-            <p class="text-blue-200 mb-6">Cari dan download produk digital dengan mudah</p>
-            
-            <!-- Kolom Pencarian -->
-            <div class="relative max-w-xl mx-auto">
-                <input type="text" id="searchInput" placeholder="Cari nama produk..." 
-                    class="w-full px-4 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-sm">
-                <i class="fas fa-search absolute right-4 top-3.5 text-gray-400 text-lg"></i>
+    <!-- ============ LOGIN VIEW ============ -->
+    <div id="loginView" class="min-h-screen flex items-center justify-center p-4 gradient-bg">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-robot text-3xl text-white"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Selamat Datang di AI Hub</h1>
+                <p class="text-gray-500 text-sm mt-1">Akses semua AI favoritmu dalam satu tempat</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <div class="relative">
+                        <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
+                        <input type="email" id="emailInput" required placeholder="nama@email.com"
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+                        <input type="password" id="passwordInput" required placeholder="Minimal 6 karakter"
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                <div id="loginError" class="text-red-500 text-sm hidden"></div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Masuk
+                </button>
+            </form>
+
+            <div class="mt-6 text-center text-sm text-gray-500">
+                <p>Belum punya akun? <a href="#" class="text-blue-600 font-semibold">Daftar gratis</a></p>
+                <p class="mt-2 text-xs">Atau coba demo: <code class="bg-gray-100 px-2 py-0.5 rounded">demo@aihub.com</code> / <code class="bg-gray-100 px-2 py-0.5 rounded">123456</code></p>
             </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto p-6 mt-4">
-        
-        <!-- Filter Kategori -->
-        <div class="flex flex-wrap justify-center gap-3 mb-8" id="filterContainer">
-            <button class="filter-btn active bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-700" data-filter="Semua">Semua</button>
-            <button class="filter-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-50" data-filter="Ebook/PDF">Ebook/PDF</button>
-            <button class="filter-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-50" data-filter="Template/ZIP">Template/ZIP</button>
-            <button class="filter-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-50" data-filter="Video">Video</button>
-            <button class="filter-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition hover:bg-blue-50" data-filter="Lainnya">Lainnya</button>
-        </div>
-        <!-- Status Loading -->
-        <div id="loading" class="text-center py-10">
-            <i class="fas fa-spinner fa-spin text-4xl text-blue-500 mb-3"></i>
-            <p class="text-gray-500">Mengambil data dari Google Drive...</p>
-        </div>
+    <!-- ============ DASHBOARD VIEW ============ -->
+    <div id="dashboardView" class="hidden">
+        <!-- Navbar -->
+        <nav class="bg-white border-b border-gray-200 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-robot text-white"></i>
+                    </div>
+                    <h1 class="text-lg font-bold text-gray-800">AI Hub</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="showView('chatView')" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700">
+                        <i class="fas fa-comments mr-1"></i> Universal Chat
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold" id="userAvatar">U</div>
+                        <button onclick="logout()" class="text-gray-500 hover:text-red-500" title="Keluar">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
-        <!-- Grid Produk -->
-        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
-            <!-- Kartu Produk akan dimuat di sini oleh Javascript -->
-        </div>
-    </main>
+        <!-- Dashboard Content -->
+        <main class="max-w-7xl mx-auto p-6">
+            <!-- Welcome Banner -->
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-6 text-white mb-8">
+                <h2 class="text-2xl font-bold mb-1">Halo, <span id="userName">User</span>! 👋</h2>
+                <p class="text-blue-100">Semua AI favoritmu sudah siap membantu. Kalau jawaban satu AI kurang sempurna, langsung lanjut ke AI lain!</p>
+                <div class="mt-4 flex gap-2 text-sm">
+                    <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-bolt mr-1"></i> Multi-AI Chain</span>
+                    <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-layer-group mr-1"></i> Context Sharing</span>
+                    <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-random mr-1"></i> Compare Responses</span>
+                </div>
+            </div>
 
-    <!-- Script Javascript -->
+            <!-- Search & Filter -->
+            <div class="flex flex-wrap gap-3 mb-6">
+                <div class="flex-1 min-w-[250px] relative">
+                    <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+                    <input type="text" id="aiSearch" placeholder="Cari aplikasi AI..."
+                        class="w-full pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="flex flex-wrap gap-2 mb-6" id="categoryFilter">
+                <button class="cat-btn active bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold" data-cat="Semua">Semua</button>
+                <button class="cat-btn bg-white text-gray-600 border border-gray-200 px-4 py-1.5 rounded-full text-sm font-semibold" data-cat="Chat">💬 Chat</button>
+                <button class="cat-btn bg-white text-gray-600 border border-gray-200 px-4 py-1.5 rounded-full text-sm font-semibold" data-cat="Image">🎨 Image</button>
+                <button class="cat-btn bg-white text-gray-600 border border-gray-200 px-4 py-1.5 rounded-full text-sm font-semibold" data-cat="Code">💻 Code</button>
+                <button class="cat-btn bg-white text-gray-600 border border-gray-200 px-4 py-1.5 rounded-full text-sm font-semibold" data-cat="Audio">🎵 Audio</button>
+                <button class="cat-btn bg-white text-gray-600 border border-gray-200 px-4 py-1.5 rounded-full text-sm font-semibold" data-cat="Search">🔍 Search</button>
+                <button class="cat-btn bg-white text-gray-600 border border-gray-200 px-4 py-1.5 rounded-full text-sm font-semibold" data-cat="Productivity">⚡ Productivity</button>
+            </div>
+
+            <!-- AI Grid -->
+            <div id="aiGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+
+            <!-- Info Card -->
+            <div class="mt-8 bg-yellow-50 border border-yellow-200 rounded-xl p-5">
+                <h3 class="font-bold text-yellow-800 mb-2"><i class="fas fa-lightbulb mr-1"></i> Tips: Fitur "Chain AI"</h3>
+                <p class="text-sm text-yellow-700">Di halaman <b>Universal Chat</b>, kamu bisa kirim prompt yang sama ke beberapa AI sekaligus, atau lanjutkan percakapan dari satu AI ke AI lain dengan konteks lengkap. Sangat berguna jika jawaban AI pertama kurang lengkap!</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- ============ CHAT VIEW (Universal Chat) ============ -->
+    <div id="chatView" class="hidden h-screen flex flex-col">
+        <!-- Chat Navbar -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+            <button onclick="showView('dashboardView')" class="flex items-center gap-2 text-gray-600 hover:text-blue-600">
+                <i class="fas fa-arrow-left"></i>
+                <span class="font-semibold">Dashboard</span>
+            </button>
+            <h1 class="text-lg font-bold text-gray-800"><i class="fas fa-comments text-blue-600 mr-1"></i> Universal Chat</h1>
+            <button onclick="newConversation()" class="text-gray-600 hover:text-blue-600" title="Percakapan Baru">
+                <i class="fas fa-plus-circle text-xl"></i>
+            </button>
+        </nav>
+
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Sidebar: Pilih AI -->
+            <aside class="w-64 bg-white border-r border-gray-200 overflow-y-auto p-3">
+                <h3 class="text-xs font-bold text-gray-500 uppercase mb-2 px-2">Pilih AI</h3>
+                <div id="aiSidebar" class="space-y-1"></div>
+            </aside>
+
+            <!-- Chat Area -->
+            <div class="flex-1 flex flex-col bg-gray-50">
+                <!-- Chat Header -->
+                <div class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-white" id="currentAiIcon"></div>
+                        <div>
+                            <h3 class="font-semibold" id="currentAiName">Pilih AI</h3>
+                            <p class="text-xs text-gray-500" id="currentAiDesc">Klik salah satu AI di sidebar</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="comparePrompt()" class="text-xs bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg hover:bg-purple-200" title="Bandingkan di beberapa AI">
+                            <i class="fas fa-random mr-1"></i> Compare
+                        </button>
+                        <button onclick="showChainModal()" class="text-xs bg-green-100 text-green-700 px-3 py-1.5 rounded-lg hover:bg-green-200" title="Lanjutkan ke AI lain">
+                            <i class="fas fa-link mr-1"></i> Chain
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-3">
+                    <div class="text-center text-gray-400 text-sm py-10">
+                        <i class="fas fa-robot text-4xl mb-2 block"></i>
+                        Pilih AI dari sidebar untuk memulai percakapan
+                    </div>
+                </div>
+
+                <!-- Input -->
+                <div class="bg-white border-t border-gray-200 p-4">
+                    <div class="flex gap-2 max-w-4xl mx-auto">
+                        <textarea id="chatInput" rows="1" placeholder="Tulis pesan... (Shift+Enter untuk baris baru)"
+                            class="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                        <button onclick="sendMessage()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ CHAIN AI MODAL ============ -->
+    <div id="chainModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold"><i class="fas fa-link text-green-600 mr-2"></i> Chain ke AI Lain</h3>
+                <button onclick="closeChainModal()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">Lanjutkan percakapan ini ke AI lain. Konteks percakapan akan otomatis disertakan.</p>
+            <div id="chainAiList" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <!-- ============ COMPARE MODAL ============ -->
+    <div id="compareModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold"><i class="fas fa-random text-purple-600 mr-2"></i> Bandingkan Jawaban</h3>
+                <button onclick="closeCompareModal()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button>
+            </div>
+            <textarea id="comparePrompt" rows="3" placeholder="Tulis prompt untuk dikirim ke beberapa AI sekaligus..."
+                class="w-full px-4 py-2 border border-gray-200 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+            <p class="text-sm text-gray-600 mb-2">Pilih AI (maks 3):</p>
+            <div id="compareAiList" class="grid grid-cols-2 gap-2 mb-4"></div>
+            <button onclick="runCompare()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2.5 rounded-lg">
+                <i class="fas fa-rocket mr-1"></i> Bandingkan Sekarang
+            </button>
+            <div id="compareResults" class="mt-4 space-y-3"></div>
+        </div>
+    </div>
+
+    <!-- ============ SCRIPT ============ -->
     <script>
-        // GANTI URL DI BAWAH INI DENGAN WEB APP URL DARI GOOGLE APPS SCRIPT ANDA!
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyvIpV27YJn33-WOgvZcTnWFp9JiNJuJ8R348yvnjY9i3tqwJLkK0KYRrRN2tc8k_ul/exec';
-        
-        let allProducts = [];
+        // ============ DATA AI ============
+        const AI_LIST = [
+            { id: 'chatgpt', name: 'ChatGPT', cat: 'Chat', icon: 'fas fa-comment-dots', color: 'bg-green-500', desc: 'AI serbaguna dari OpenAI', url: 'https://chat.openai.com' },
+            { id: 'claude', name: 'Claude', cat: 'Chat', icon: 'fas fa-brain', color: 'bg-orange-500', desc: 'Analisis panjang & reasoning', url: 'https://claude.ai' },
+            { id: 'gemini', name: 'Gemini', cat: 'Chat', icon: 'fas fa-star', color: 'bg-blue-500', desc: 'AI multimodal Google', url: 'https://gemini.google.com' },
+            { id: 'perplexity', name: 'Perplexity', cat: 'Search', icon: 'fas fa-search', color: 'bg-cyan-500', desc: 'Search engine AI', url: 'https://perplexity.ai' },
+            { id: 'copilot', name: 'Copilot', cat: 'Code', icon: 'fab fa-github', color: 'bg-gray-800', desc: 'Assistant coding', url: 'https://github.com/features/copilot' },
+            { id: 'cursor', name: 'Cursor', cat: 'Code', icon: 'fas fa-code', color: 'bg-black', desc: 'IDE berbasis AI', url: 'https://cursor.sh' },
+            { id: 'midjourney', name: 'Midjourney', cat: 'Image', icon: 'fas fa-image', color: 'bg-purple-600', desc: 'Generate gambar artistik', url: 'https://midjourney.com' },
+            { id: 'dalle', name: 'DALL-E', cat: 'Image', icon: 'fas fa-palette', color: 'bg-pink-500', desc: 'Generate gambar realistis', url: 'https://openai.com/dall-e-3' },
+            { id: 'stable', name: 'Stable Diffusion', cat: 'Image', icon: 'fas fa-wand-magic-sparkles', color: 'bg-indigo-500', desc: 'Open source image gen', url: 'https://stability.ai' },
+            { id: 'suno', name: 'Suno', cat: 'Audio', icon: 'fas fa-music', color: 'bg-red-500', desc: 'Generate musik AI', url: 'https://suno.ai' },
+            { id: 'elevenlabs', name: 'ElevenLabs', cat: 'Audio', icon: 'fas fa-microphone', color: 'bg-yellow-500', desc: 'Text-to-speech realistis', url: 'https://elevenlabs.io' },
+            { id: 'notion', name: 'Notion AI', cat: 'Productivity', icon: 'fab fa-notion', color: 'bg-gray-900', desc: 'Asisten produktivitas', url: 'https://notion.so' },
+            { id: 'gamma', name: 'Gamma', cat: 'Productivity', icon: 'fas fa-file-powerpoint', color: 'bg-orange-600', desc: 'Generate presentasi AI', url: 'https://gamma.app' },
+            { id: 'v0', name: 'v0 by Vercel', cat: 'Code', icon: 'fas fa-window-maximize', color: 'bg-black', desc: 'Generate UI dari prompt', url: 'https://v0.dev' },
+            { id: 'runway', name: 'Runway ML', cat: 'Image', icon: 'fas fa-film', color: 'bg-teal-500', desc: 'Generate video AI', url: 'https://runwayml.com' },
+            { id: 'phind', name: 'Phind', cat: 'Search', icon: 'fas fa-terminal', color: 'bg-blue-700', desc: 'Search untuk developer', url: 'https://phind.com' },
+        ];
 
-        // Fungsi mengambil data dari API Google
-        async function fetchData() {
-            try {
-                const response = await fetch(API_URL);
-                allProducts = await response.json();
-                
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('productGrid').classList.remove('hidden');
-                
-                renderProducts(allProducts);
-            } catch (error) {
-                document.getElementById('loading').innerHTML = '<p class="text-red-500">Gagal memuat data. Pastikan URL API benar.</p>';
-                console.error('Error fetching data:', error);
-            }
-        }
+        // ============ STATE ============
+        let currentUser = null;
+        let currentAi = null;
+        let conversations = JSON.parse(localStorage.getItem('aiHubConversations') || '{}');
+        let currentConvId = null;
 
-        // Fungsi menampilkan produk ke HTML
-        function renderProducts(products) {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = ''; // Kosongkan dulu
-            
-            if(products.length === 0) {
-                grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-10">Produk tidak ditemukan.</p>';
+        // ============ LOGIN LOGIC ============
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+            const errorEl = document.getElementById('loginError');
+
+            // Simulasi login (demo account atau validasi sederhana)
+            if (password.length < 6) {
+                errorEl.textContent = 'Password minimal 6 karakter';
+                errorEl.classList.remove('hidden');
                 return;
             }
 
-            products.forEach(product => {
-                // Konversi Link Download Direct
-                const downloadLink = `https://drive.google.com/uc?export=download&id=${product.id}`;
-                
-                // Pilih ikon berdasarkan kategori
-                let icon = 'fa-file';
-                if(product.kategori === 'Ebook/PDF') icon = 'fa-file-pdf text-red-500';
-                else if(product.kategori === 'Template/ZIP') icon = 'fa-file-zipper text-yellow-500';
-                else if(product.kategori === 'Video') icon = 'fa-file-video text-purple-500';
-                else if(product.kategori === 'Gambar') icon = 'fa-image text-green-500';
-
-                const card = `
-                    <div class="bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 p-5 flex flex-col transition duration-300">
-                        <div class="flex items-start justify-between mb-4">
-                            <div class="bg-gray-50 p-3 rounded-lg"><i class="fas ${icon} text-2xl"></i></div>
-                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">${product.kategori}</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-1 line-clamp-2">${product.nama}</h3>
-                        <p class="text-sm text-gray-500 mb-6"><i class="fas fa-hdd mr-1"></i> Ukuran: ${product.ukuran}</p>
-                        <div class="mt-auto">
-                            <a href="${downloadLink}" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition duration-200">
-                                <i class="fas fa-download mr-1"></i> Download Langsung
-                            </a>
-                        </div>
-                    </div>
-                `;
-                grid.innerHTML += card;
-            });
-        }
-
-        // Fitur Pencarian (Search)
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const keyword = e.target.value.toLowerCase();
-            const filtered = allProducts.filter(p => p.nama.toLowerCase().includes(keyword));
-            renderProducts(filtered);
+            // Simpan user
+            const user = { email, name: email.split('@')[0], loginAt: new Date().toISOString() };
+            localStorage.setItem('aiHubUser', JSON.stringify(user));
+            currentUser = user;
+            showView('dashboardView');
         });
 
-        // Fitur Filter Kategori
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        filterBtns.forEach(btn => {
+        function logout() {
+            if (confirm('Yakin ingin keluar?')) {
+                localStorage.removeItem('aiHubUser');
+                currentUser = null;
+                showView('loginView');
+            }
+        }
+
+        function showView(viewId) {
+            ['loginView', 'dashboardView', 'chatView'].forEach(id => {
+                document.getElementById(id).classList.toggle('hidden', id !== viewId);
+            });
+            if (viewId === 'dashboardView') {
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userAvatar').textContent = currentUser.name[0].toUpperCase();
+                renderAiGrid();
+            }
+            if (viewId === 'chatView') renderSidebar();
+        }
+
+        // ============ DASHBOARD LOGIC ============
+        let activeCategory = 'Semua';
+        let searchQuery = '';
+
+        function renderAiGrid() {
+            const grid = document.getElementById('aiGrid');
+            const filtered = AI_LIST.filter(ai => {
+                const matchCat = activeCategory === 'Semua' || ai.cat === activeCategory;
+                const matchSearch = ai.name.toLowerCase().includes(searchQuery) || ai.desc.toLowerCase().includes(searchQuery);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-10">AI tidak ditemukan.</p>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(ai => `
+                <div class="ai-card bg-white rounded-xl border border-gray-100 p-4 shadow-sm cursor-pointer hover:shadow-lg" onclick="openAi('${ai.id}')">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="${ai.color} w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl">
+                            <i class="${ai.icon}"></i>
+                        </div>
+                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">${ai.cat}</span>
+                    </div>
+                    <h3 class="font-bold text-gray-800">${ai.name}</h3>
+                    <p class="text-xs text-gray-500 mt-1 line-clamp-2">${ai.desc}</p>
+                    <div class="mt-3 flex gap-1">
+                        <button onclick="event.stopPropagation(); quickChat('${ai.id}')" class="flex-1 text-xs bg-blue-50 text-blue-600 py-1.5 rounded-lg hover:bg-blue-100">
+                            <i class="fas fa-comment"></i> Chat
+                        </button>
+                        <button onclick="event.stopPropagation(); window.open('${ai.url}', '_blank')" class="flex-1 text-xs bg-gray-50 text-gray-600 py-1.5 rounded-lg hover:bg-gray-100">
+                            <i class="fas fa-external-link-alt"></i> Buka
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openAi(id) {
+            const ai = AI_LIST.find(a => a.id === id);
+            window.open(ai.url, '_blank');
+        }
+
+        function quickChat(id) {
+            const ai = AI_LIST.find(a => a.id === id);
+            currentAi = ai;
+            showView('chatView');
+        }
+
+        document.getElementById('aiSearch').addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            renderAiGrid();
+        });
+
+        document.querySelectorAll('.cat-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                // Ubah gaya tombol yang aktif
-                filterBtns.forEach(b => {
+                document.querySelectorAll('.cat-btn').forEach(b => {
                     b.classList.remove('bg-blue-600', 'text-white');
                     b.classList.add('bg-white', 'text-gray-600');
                 });
                 btn.classList.remove('bg-white', 'text-gray-600');
                 btn.classList.add('bg-blue-600', 'text-white');
-
-                // Filter data
-                const kategori = btn.getAttribute('data-filter');
-                if(kategori === 'Semua') {
-                    renderProducts(allProducts);
-                } else {
-                    const filtered = allProducts.filter(p => p.kategori === kategori);
-                    renderProducts(filtered);
-                }
+                activeCategory = btn.dataset.cat;
+                renderAiGrid();
             });
         });
 
-        // Jalankan fungsi ambil data saat pertama kali dibuka
-        window.onload = fetchData;
+        // ============ CHAT LOGIC ============
+        function renderSidebar() {
+            const sidebar = document.getElementById('aiSidebar');
+            const chatAis = AI_LIST.filter(a => ['Chat', 'Search', 'Code'].includes(a.cat));
+            sidebar.innerHTML = chatAis.map(ai => `
+                <button onclick="selectAi('${ai.id}')" class="w-full flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-100 ${currentAi?.id === ai.id ? 'bg-blue-50' : ''}">
+                    <div class="${ai.color} w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs">
+                        <i class="${ai.icon}"></i>
+                    </div>
+                    <span class="text-sm font-medium truncate">${ai.name}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectAi(id) {
+            currentAi = AI_LIST.find(a => a.id === id);
+            currentConvId = `${currentAi.id}_${Date.now()}`;
+            document.getElementById('currentAiName').textContent = currentAi.name;
+            document.getElementById('currentAiDesc').textContent = currentAi.desc;
+            const icon = document.getElementById('currentAiIcon');
+            icon.className = `${currentAi.color} w-8 h-8 rounded-full flex items-center justify-center text-white`;
+            icon.innerHTML = `<i class="${currentAi.icon}"></i>`;
+            renderSidebar();
+            renderMessages();
+        }
+
+        function renderMessages() {
+            const container = document.getElementById('chatMessages');
+            const conv = conversations[currentConvId] || [];
+            if (conv.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-400 text-sm py-10 fade-in">
+                    <i class="fas fa-robot text-4xl mb-2 block"></i>
+                    Mulai percakapan dengan ${currentAi?.name || 'AI'}
+                </div>`;
+                return;
+            }
+            container.innerHTML = conv.map(m => renderMessage(m)).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function renderMessage(m) {
+            const isUser = m.role === 'user';
+            return `<div class="flex ${isUser ? 'justify-end' : 'justify-start'} fade-in">
+                <div class="chat-bubble ${isUser ? 'bg-blue-600 text-white' : 'bg-white border border-gray-200'} rounded-2xl px-4 py-2.5">
+                    ${!isUser ? `<div class="text-xs font-semibold mb-1 ${getAiColorClass(m.ai)}">${m.ai}</div>` : ''}
+                    <p class="text-sm whitespace-pre-wrap">${m.content}</p>
+                    ${!isUser ? renderChainButton(m) : ''}
+                </div>
+            </div>`;
+        }
+
+        function getAiColorClass(aiName) {
+            const ai = AI_LIST.find(a => a.name === aiName);
+            return ai ? ai.color.replace('bg-', 'text-') : 'text-gray-600';
+        }
+
+        function renderChainButton(m) {
+            return `<div class="mt-2 flex gap-1 flex-wrap">
+                <button onclick='chainMessage(${JSON.stringify(m.content).replace(/'/g, "\\'")})' 
+                    class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded hover:bg-green-200">
+                    <i class="fas fa-link"></i> Chain ke AI lain
+                </button>
+                <button onclick='copyMessage(${JSON.stringify(m.content).replace(/'/g, "\\'")})' 
+                    class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>`;
+        }
+
+        function copyMessage(text) {
+            navigator.clipboard.writeText(text);
+            showToast('Pesan disalin!');
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text || !currentAi) return;
+
+            if (!conversations[currentConvId]) conversations[currentConvId] = [];
+            conversations[currentConvId].push({ role: 'user', content: text, time: Date.now() });
+            input.value = '';
+            renderMessages();
+            saveConversations();
+
+            // Simulasi AI response (dalam production, ganti dengan API call)
+            await simulateAiResponse(text);
+        }
+
+        async function simulateAiResponse(userText) {
+            const container = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'flex justify-start fade-in';
+            typingDiv.innerHTML = `<div class="chat-bubble bg-white border border-gray-200 rounded-2xl px-4 py-2.5">
+                <div class="text-xs font-semibold mb-1 ${getAiColorClass(currentAi.name)}">${currentAi.name}</div>
+                <p class="text-sm typing">Sedang berpikir</p>
+            </div>`;
+            container.appendChild(typingDiv);
+            container.scrollTop = container.scrollHeight;
+
+            // Simulasi delay + generate response kontekstual
+            await new Promise(r => setTimeout(r, 1000 + Math.random() * 1000));
+            typingDiv.remove();
+
+            const response = generateResponse(currentAi, userText);
+            conversations[currentConvId].push({
+                role: 'assistant',
+                ai: currentAi.name,
+                aiId: currentAi.id,
+                content: response,
+                time: Date.now()
+            });
+            saveConversations();
+            renderMessages();
+        }
+
+        function generateResponse(ai, userText) {
+            // Simulasi respons AI berdasarkan karakteristik masing-masing
+            const responses = {
+                chatgpt: `[${ai.name}] Berdasarkan pertanyaan "${userText}", berikut analisis saya:\n\n1. **Konteks**: Ini adalah topik yang menarik dan relevan.\n2. **Jawaban**: Saya akan memberikan penjelasan komprehensif dengan beberapa perspektif.\n3. **Saran**: Coba juga tanyakan ke Claude untuk perspektif reasoning yang lebih dalam, atau Gemini untuk data terkini.\n\n💡 *Catatan: Dalam produksi, ini akan terhubung ke OpenAI API.*`,
+                claude: `[${ai.name}] Mari saya analisis ini dengan teliti:\n\nPertanyaan Anda "${userText}" memiliki beberapa dimensi yang perlu dipertimbangkan.\n\n• Dari perspektif logika: ...\n• Dari perspektif praktis: ...\n• Pertimbangan etika: ...\n\nSaya coba jujur tentang keterbatasan saya di sini. Mungkin ada baiknya Anda verifikasi dengan sumber lain.\n\n💡 *Tip: Chain jawaban ini ke ChatGPT untuk format yang lebih terstruktur.*`,
+                gemini: `[${ai.name}] Berdasarkan data terkini:\n\n🔍 Informasi tentang "${userText}" menunjukkan beberapa tren menarik:\n- Trend 1 sedang naik 45%\n- Trend 2 mulai populer sejak Q1 2026\n\n📊 Saya bisa memberikan data lebih detail atau membuat visualisasi jika Anda mau.\n\n💡 *Tip: Untuk kode atau reasoning kompleks, chain ke Claude atau Copilot.*`,
+                copilot: `[${ai.name}] Berikut implementasi untuk "${userText}":\n\n\`\`\`javascript\n// Code skeleton\nfunction solve() {\n  // TODO: Implementasi\n  return result;\n}\n\`\`\`\n\nMau saya lengkapi dengan test cases dan error handling?`,
+                perplexity: `[${ai.name}] 🔎 Hasil pencarian untuk "${userText}":\n\n[Sumber 1] - Relevansi tinggi\n[Sumber 2] - Perspektif alternatif\n[Sumber 3] - Data terbaru\n\nSemua sumber tersedia dengan link untuk verifikasi.`,
+            };
+            return responses[ai.id] || `[${ai.name}] Terima kasih atas pertanyaan Anda: "${userText}".\n\nSaya menganalisis dan memberikan jawaban berdasarkan kemampuan saya. Jika jawaban ini kurang memuaskan, gunakan tombol **Chain ke AI lain** untuk melanjutkan diskusi dengan AI yang berbeda.\n\n💡 Setiap AI punya kekuatan berbeda — kombinasi memberikan hasil terbaik!`;
+        }
+
+        function saveConversations() {
+            localStorage.setItem('aiHubConversations', JSON.stringify(conversations));
+        }
+
+        function newConversation() {
+            if (!currentAi) { alert('Pilih AI dulu!'); return; }
+            currentConvId = `${currentAi.id}_${Date.now()}`;
+            renderMessages();
+        }
+
+        // ============ CHAIN AI (FITUR UTAMA) ============
+        function chainMessage(text) {
+            showChainModal(text);
+        }
+
+        let chainSourceText = '';
+        function showChainModal(sourceText = '') {
+            chainSourceText = sourceText;
+            const conv = conversations[currentConvId] || [];
+            const fullContext = conv.map(m => `[${m.role === 'user' ? 'User' : m.ai}]: ${m.content}`).join('\n\n');
+
+            const list = document.getElementById('chainAiList');
+            list.innerHTML = AI_LIST.filter(a => a.id !== currentAi?.id && ['Chat','Search','Code'].includes(a.cat))
+                .map(ai => `
+                    <button onclick='executeChain("${ai.id}")' class="w-full flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition">
+                        <div class="${ai.color} w-10 h-10 rounded-lg flex items-center justify-center text-white">
+                            <i class="${ai.icon}"></i>
+                        </div>
+                        <div class="text-left flex-1">
+                            <p class="font-semibold text-sm">${ai.name}</p>
+                            <p class="text-xs text-gray-500">${ai.desc}</p>
+                        </div>
+                        <i class="fas fa-arrow-right text-gray-400"></i>
+                    </button>
+                `).join('');
+            document.getElementById('chainModal').classList.remove('hidden');
+        }
+
+        function closeChainModal() {
+            document.getElementById('chainModal').classList.add('hidden');
+        }
+
+        function executeChain(targetAiId) {
+            const targetAi = AI_LIST.find(a => a.id === targetAiId);
+            const conv = conversations[currentConvId] || [];
+            const context = conv.map(m => `${m.role === 'user' ? 'User' : m.ai}: ${m.content}`).join('\n');
+
+            // Buat prompt baru dengan konteks
+            const chainPrompt = `Berikut adalah percakapan sebelumnya dengan ${currentAi?.name || 'AI lain'}:\n\n${context}\n\n---\n\nMohon lanjutkan/tingkatkan jawaban di atas. ${chainSourceText ? `Fokus pada: ${chainSourceText}` : 'Berikan analisis tambahan atau perspektif berbeda.'}`;
+
+            // Pindah ke AI target dengan konteks
+            currentAi = targetAi;
+            currentConvId = `${targetAi.id}_chain_${Date.now()}`;
+            conversations[currentConvId] = [{
+                role: 'user',
+                content: chainPrompt,
+                time: Date.now(),
+                isChain: true
+            }];
+            saveConversations();
+
+            document.getElementById('currentAiName').textContent = targetAi.name;
+            document.getElementById('currentAiDesc').textContent = targetAi.desc + ' (Chain dari percakapan sebelumnya)';
+            const icon = document.getElementById('currentAiIcon');
+            icon.className = `${targetAi.color} w-8 h-8 rounded-full flex items-center justify-center text-white`;
+            icon.innerHTML = `<i class="${targetAi.icon}"></i>`;
+
+            closeChainModal();
+            renderSidebar();
+            renderMessages();
+            simulateAiResponse(chainPrompt);
+            showToast(`🔗 Di-chain ke ${targetAi.name}`);
+        }
+
+        // ============ COMPARE ============
+        let compareSelections = new Set();
+
+        function comparePrompt() {
+            compareSelections.clear();
+            const list = document.getElementById('compareAiList');
+            list.innerHTML = AI_LIST.filter(a => ['Chat','Search','Code'].includes(a.cat))
+                .map(ai => `
+                    <label class="flex items-center gap-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" value="${ai.id}" onchange="toggleCompare('${ai.id}')" class="compare-checkbox">
+                        <div class="${ai.color} w-6 h-6 rounded flex items-center justify-center text-white text-xs">
+                            <i class="${ai.icon}"></i>
+                        </div>
+                        <span class="text-sm">${ai.name}</span>
+                    </label>
+                `).join('');
+            document.getElementById('comparePrompt').value = '';
+            document.getElementById('compareResults').innerHTML = '';
+            document.getElementById('compareModal').classList.remove('hidden');
+        }
+
+        function toggleCompare(id) {
+            if (compareSelections.has(id)) compareSelections.delete(id);
+            else {
+                if (compareSelections.size >= 3) { alert('Maksimal 3 AI'); return; }
+                compareSelections.add(id);
+            }
+        }
+
+        function closeCompareModal() {
+            document.getElementById('compareModal').classList.add('hidden');
+        }
+
+        async function runCompare() {
+            const prompt = document.getElementById('comparePrompt').value.trim();
+            if (!prompt) { alert('Tulis prompt dulu'); return; }
+            if (compareSelections.size === 0) { alert('Pilih minimal 1 AI'); return; }
+
+            const results = document.getElementById('compareResults');
+            results.innerHTML = '<p class="text-center text-gray-500"><i class="fas fa-spinner fa-spin"></i> Membandingkan...</p>';
+
+            const ais = Array.from(compareSelections).map(id => AI_LIST.find(a => a.id === id));
+            let html = '';
+            for (const ai of ais) {
+                await new Promise(r => setTimeout(r, 500));
+                html += `
+                    <div class="border border-gray-200 rounded-lg p-3">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="${ai.color} w-6 h-6 rounded flex items-center justify-center text-white text-xs">
+                                <i class="${ai.icon}"></i>
+                            </div>
+                            <span class="font-semibold text-sm">${ai.name}</span>
+                        </div>
+                        <p class="text-sm text-gray-700 whitespace-pre-wrap">${generateResponse(ai, prompt)}</p>
+                    </div>`;
+            }
+            results.innerHTML = html;
+        }
+
+        // ============ UTILS ============
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50 fade-in';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        // Auto-resize textarea
+        document.getElementById('chatInput')?.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+        });
+        document.getElementById('chatInput')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+        });
+
+        // ============ INIT ============
+        window.addEventListener('load', () => {
+            const savedUser = localStorage.getItem('aiHubUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showView('dashboardView');
+            } else {
+                showView('loginView');
+            }
+        });
     </script>
 </body>
 </html>
